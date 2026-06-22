@@ -741,7 +741,7 @@ disable_kiosk_netwatch() {
 # =========================
 echo
 if ask_user "Szeretnéd bekapcsolni az internet ellenőrző szolgáltatást?" "y"; then
-  NETWATCH_REBOOT_AFTER_MINUTES="$(ask_positive_integer "Hány perc folyamatos internetkimaradás után induljon újra a gép" "5")"
+  NETWATCH_REBOOT_AFTER_MINUTES="$(ask_positive_integer "Hány perc folyamatos internetkimaradás után induljon újra a gép" "20")"
 
   write_kiosk_netwatch_script
   write_kiosk_netwatch_config "$NETWATCH_REBOOT_AFTER_MINUTES"
@@ -762,8 +762,8 @@ fi
 # =========================
 echo
 if ask_user "Szeretnél Chromium autostartot létrehozni labwc-hez?" "y"; then
-  read -p "Add meg a Chromiumban megnyitandó URL-t [alapértelmezett: https://planka.athq.cc]: " USER_URL
-  USER_URL="${USER_URL:-https://planka.athq.cc}"
+  read -p "Add meg a Chromiumban megnyitandó URL-t [alapértelmezett: http://192.168.1.40:18006]: " USER_URL
+  USER_URL="${USER_URL:-http://192.168.1.40:18006}"
 
   echo
   INCOGNITO_MODE="n"
@@ -777,11 +777,11 @@ if ask_user "Szeretnél Chromium autostartot létrehozni labwc-hez?" "y"; then
     USE_NET_WAIT="y"
   fi
 
-  PING_HOST="8.8.8.8"
+  PING_HOST="1.1.1.1"
   MAX_WAIT="30"
   if [ "$USE_NET_WAIT" = "y" ]; then
-    read -p "Add meg a pingelendő hostot a hálózati ellenőrzéshez [alapértelmezett: 8.8.8.8]: " PING_HOST_IN
-    PING_HOST="${PING_HOST_IN:-8.8.8.8}"
+    read -p "Add meg a pingelendő hostot a hálózati ellenőrzéshez [alapértelmezett: 1.1.1.1]: " PING_HOST_IN
+    PING_HOST="${PING_HOST_IN:-1.1.1.1}"
     MAX_WAIT="$(ask_positive_integer "Add meg a maximális várakozási időt másodpercben" "30")"
   fi
 
@@ -798,10 +798,10 @@ if ask_user "Szeretnél Chromium autostartot létrehozni labwc-hez?" "y"; then
 
     read -p "Add meg az idle képernyő URL-jét [alapértelmezett: https://kiosk.athq.cc]: " IDLE_URL
     IDLE_URL="${IDLE_URL:-https://kiosk.athq.cc}"
-    IDLE_TIMEOUT="$(ask_positive_integer "Add meg az idle várakozási időt másodpercben" "120")"
+    IDLE_TIMEOUT="$(ask_positive_integer "Add meg az idle várakozási időt másodpercben" "20")"
   else
     IDLE_URL="https://kiosk.athq.cc"
-    IDLE_TIMEOUT="120"
+    IDLE_TIMEOUT="20"
   fi
 
   CHROMIUM_BIN="$(command -v chromium || command -v chromium-browser || true)"
